@@ -70,3 +70,5 @@ index cd2c9f1..91dc53a 100644
  debug.sf.predict_hwc_composition_strategy=0
  ro.surface_flinger.running_without_sync_framework=true
  ro.surface_flinger.enable_frame_rate_override=false
++vendor.debug.policy_mask=fffb
++vendor.debug.afbce_enable=0
