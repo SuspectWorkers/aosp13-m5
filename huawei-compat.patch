@@ -1,0 +1,158 @@
+diff --git a/libshims/Android.bp b/libshims/Android.bp
+index d95e879..07dc872 100644
+--- a/libshims/Android.bp
++++ b/libshims/Android.bp
+@@ -31,35 +31,6 @@ cc_library_shared {
+     vendor: true,
+ }
+ 
+-cc_library_shared {
+-    name: "libshim_emcom",
+-    shared_libs: [
+-        "libcutils_shim",
+-        "libtinyxml2_shim"
+-    ],
+-}
+-
+-cc_library_shared {
+-    name: "guivnd",
+-    shared_libs: [
+-        "libgui_vendor",
+-        "libsensor_vendor"
+-    ],
+-    vendor: true,
+-}
+-
+-cc_library_shared {
+-    name: "libshim_hwcam",
+-    shared_libs: [
+-        "libgui_vendor",
+-        "libui",
+-        "libshim_ui",
+-        "libui_shim",
+-        "libtinyxml2_shim"
+-    ],
+-    vendor: true,
+-}
+-
+ cc_library_shared {
+     name: "libshim_audioparams",
+     srcs: ["libshim_audioparams.cpp"],
+diff --git a/livedisplay/Android.bp b/livedisplay/Android.bp
+deleted file mode 100644
+index 4cbccae..0000000
+--- a/livedisplay/Android.bp
++++ /dev/null
+@@ -1,38 +0,0 @@
+-/*
+- * Copyright (C) 2023 The LineageOS Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-cc_binary {
+-    name: "vendor.lineage.livedisplay@2.1-service.huawei",
+-    init_rc: ["vendor.lineage.livedisplay@2.1-service.huawei.rc"],
+-    vintf_fragments: ["vendor.lineage.livedisplay@2.1-service.huawei.xml"],
+-    vendor: true,
+-    defaults: ["hidl_defaults"],
+-    relative_install_path: "hw",
+-    shared_libs: [
+-        "libbase",
+-        "libbinder",
+-        "libcutils",
+-        "libhidlbase",
+-        "libutils",
+-        "vendor.lineage.livedisplay@2.0",
+-        "vendor.lineage.livedisplay@2.1"
+-    ],
+-
+-    srcs: [
+-	"DisplayColorCalibration.cpp",
+-        "service.cpp"
+-    ]
+-}
+diff --git a/sepolicy/common/vendor/file_contexts b/sepolicy/common/vendor/file_contexts
+index f901d4e..e8ed8f3 100644
+--- a/sepolicy/common/vendor/file_contexts
++++ b/sepolicy/common/vendor/file_contexts
+@@ -18,8 +18,6 @@
+ /vendor/bin/hw/vendor.huawei.hardware.libteec@2.0-service			u:object_r:hal_libteec_default_exec:s0
+ /vendor/bin/hw/vendor.huawei.hardware.libteec@3.0-service			u:object_r:hal_libteec_default_exec:s0
+ /vendor/bin/hw/vendor.huawei.hardware.nfc@1.0-service				u:object_r:hal_nfc_default_exec:s0
+-/vendor/bin/hw/vendor.lineage.livedisplay@2.1-service.huawei			u:object_r:hal_lineage_livedisplay_sysfs_exec:s0
+-/vendor/bin/hw/vendor.lineage.touch@1.0-service.huawei				u:object_r:hal_lineage_touch_default_exec:s0
+ 
+ /vendor/bin/bsoh								u:object_r:hal_bsoh_default_exec:s0
+ /vendor/bin/CameraDaemon							u:object_r:hal_camera_default_exec:s0
+@@ -126,9 +124,6 @@
+ /dev/wlanfty_ver								u:object_r:wlanfty_device:s0
+ 
+ # data
+-/data/hisi_logs									u:object_r:vendor_log_file:s0
+-/data/sec_storage_data(/.*)?                    				u:object_r:teecd_data_file:s0
+-/data/sec_storage_data_users(/.*)?              				u:object_r:teecd_data_file:s0
+ 
+ # /data/vendor/*
+ /data/vendor/bluedroid(/.*)?							u:object_r:vendor_bt_data_file:s0
+@@ -224,7 +219,7 @@
+ /hw_odm/ncfg(/.*)?								u:object_r:ncfg_nv_file:s0
+ /odm/hw_odm/[^/]+/ncfg(/.*)?							u:object_r:ncfg_nv_file:s0
+ /odm/etc/ncfg_def(/.*)?								u:object_r:ncfg_nv_file:s0
+-/odm/etc/audio/volume/volume_point.xml						u:object_r:audio_data_file:s0
++/odm/etc/audio/volume/volume_point.xml						u:object_r:vendor_configs_file:s0
+ 
+ /vendor/firmware/.*_emer_fw.bin							u:object_r:hwemerffu_fw_file:s0
+ /vendor/firmware/Total.wdk							u:object_r:hi110x_vendor_file:s0
+diff --git a/sepolicy/common/vendor/hwservice_contexts b/sepolicy/common/vendor/hwservice_contexts
+index 1605995..7377938 100644
+--- a/sepolicy/common/vendor/hwservice_contexts
++++ b/sepolicy/common/vendor/hwservice_contexts
+@@ -23,6 +23,6 @@ vendor.huawei.hardware.radio::IRadio
+ vendor.huawei.hardware.radio.ims::IRadioIms                                     		u:object_r:hal_telephony_hwservice:s0
+ vendor.huawei.hardware.radio.chr::IRadioChr                                     		u:object_r:hal_telephony_hwservice:s0
+ vendor.huawei.hardware.radio.deprecated::IOemHook                               		u:object_r:hal_telephony_hwservice:s0
+-vendor.huawei.hardware.tp::ITouchscreen                                     			u:object_r:hal_lineage_touch_hwservice:s0
++vendor.huawei.hardware.tp::ITouchscreen                                     			u:object_r:hal_touchscreen_hwservice:s0
+ vendor.huawei.hardware.wifi::IHwWifiExt                                         		u:object_r:hal_wifi_hwservice:s0
+ vendor.huawei.hardware.wifi.supplicant::ISupplicant 						u:object_r:hal_wifi_supplicant_hwservice:s0
+diff --git a/touch/Android.bp b/touch/Android.bp
+deleted file mode 100644
+index 4b3bd75..0000000
+--- a/touch/Android.bp
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/*
+- * Copyright (C) 2025 The LineageOS Project
+- *
+- * SPDX-License-Identifier: Apache-2.0
+- */
+-
+-cc_binary {
+-    name: "vendor.lineage.touch@1.0-service.huawei",
+-    init_rc: ["vendor.lineage.touch@1.0-service.huawei.rc"],
+-    vintf_fragments: ["vendor.lineage.touch@1.0-service.huawei.xml"],
+-    defaults: ["hidl_defaults"],
+-    relative_install_path: "hw",
+-    vendor: true,
+-    srcs: [
+-        "GloveMode.cpp",
+-        "service.cpp",
+-    ],
+-    shared_libs: [
+-        "libbase",
+-        "libhidlbase",
+-        "libutils",
+-        "vendor.lineage.touch@1.0",
+-    ],
+-}

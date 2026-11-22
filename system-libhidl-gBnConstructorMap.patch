@@ -1,0 +1,72 @@
+diff --git a/transport/HidlBinderSupport.cpp b/transport/HidlBinderSupport.cpp
+index b28b791..62a3d9f 100644
+--- a/transport/HidlBinderSupport.cpp
++++ b/transport/HidlBinderSupport.cpp
+@@ -254,6 +254,10 @@ sp<IBinder> getOrCreateCachedBinder(::android::hidl::base::V1_0::IBase* ifacePtr
+ 
+     if (sBnObj == nullptr) {
+         auto func = details::getBnConstructorMap().get(descriptor, nullptr);
++        if (!func) {
++            // TODO(b/69122224): remove this static variable when prebuilts updated
++            func = details::gBnConstructorMap->get(descriptor, nullptr);
++        }
+         LOG_ALWAYS_FATAL_IF(func == nullptr, "%s getBnConstructorMap returned null for %s",
+                             __func__, descriptor.c_str());
+ 
+diff --git a/transport/HidlPassthroughSupport.cpp b/transport/HidlPassthroughSupport.cpp
+index 3e1330e..a38a2bb 100644
+--- a/transport/HidlPassthroughSupport.cpp
++++ b/transport/HidlPassthroughSupport.cpp
+@@ -29,6 +29,10 @@ namespace details {
+ 
+ static sp<IBase> tryWrap(const std::string& descriptor, sp<IBase> iface) {
+     auto func = getBsConstructorMap().get(descriptor, nullptr);
++    if (!func) {
++        // TODO(b/69122224): remove this when prebuilts don't reference it
++        func = gBsConstructorMap->get(descriptor, nullptr);
++    }
+     if (func) {
+         return func(static_cast<void*>(iface.get()));
+     }
+diff --git a/transport/InternalStatic.h b/transport/InternalStatic.h
+index a1c9460..3a1fd28 100644
+--- a/transport/InternalStatic.h
++++ b/transport/InternalStatic.h
+@@ -26,6 +26,13 @@ namespace android {
+ namespace hardware {
+ namespace details {
+ 
++// TODO(b/69122224): remove this once no prebuilts reference it
++// deprecated; use getBnConstructorMap instead.
++extern DoNotDestruct<BnConstructorMap> gBnConstructorMap;
++// TODO(b/69122224): remove this once no prebuilts reference it
++// deprecated; use getBsConstructorMap instead.
++extern DoNotDestruct<BsConstructorMap> gBsConstructorMap;
++
+ // TODO(b/69122224): remove this once no prebuilts reference it
+ extern DoNotDestruct<ConcurrentMap<wp<::android::hidl::base::V1_0::IBase>, SchedPrio>>
+         gServicePrioMap;
+diff --git a/transport/Static.cpp b/transport/Static.cpp
+index 8fc2a7d..10e9e49 100644
+--- a/transport/Static.cpp
++++ b/transport/Static.cpp
+@@ -24,6 +24,9 @@ namespace android {
+ namespace hardware {
+ namespace details {
+ 
++// Deprecated; kept for ABI compatibility. Use getBnConstructorMap.
++DoNotDestruct<BnConstructorMap> gBnConstructorMap{};
++
+ DoNotDestruct<ConcurrentMap<const ::android::hidl::base::V1_0::IBase*,
+                             wp<::android::hardware::BHwBinder>>>
+         gBnMap{};
+@@ -32,6 +35,9 @@ DoNotDestruct<ConcurrentMap<const ::android::hidl::base::V1_0::IBase*,
+ DoNotDestruct<ConcurrentMap<wp<::android::hidl::base::V1_0::IBase>, SchedPrio>> gServicePrioMap{};
+ DoNotDestruct<ConcurrentMap<wp<::android::hidl::base::V1_0::IBase>, bool>> gServiceSidMap{};
+ 
++// Deprecated; kept for ABI compatibility. Use getBsConstructorMap.
++DoNotDestruct<BsConstructorMap> gBsConstructorMap{};
++
+ BnConstructorMap& getBnConstructorMap() {
+     static BnConstructorMap& map = *new BnConstructorMap();
+     return map;

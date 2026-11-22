@@ -1,0 +1,89 @@
+// Prebuilt custom apps for aosp_mediapadm5wifi
+
+prebuilt_etc {
+    name: "privapp_whitelist_app.lawnchair",
+    src: "privapp-permissions-app.lawnchair.xml",
+    filename: "privapp-permissions-app.lawnchair.xml",
+    sub_dir: "permissions",
+    system_ext_specific: true,
+}
+
+prebuilt_etc {
+    name: "hiddenapi_whitelist_app.lawnchair",
+    src: "app.lawnchair-hiddenapi-package-whitelist.xml",
+    filename: "app.lawnchair-hiddenapi-package-whitelist.xml",
+    sub_dir: "sysconfig",
+}
+
+android_app_import {
+    name: "Lawnchair",
+    apk: "Lawnchair.apk",
+    presigned: true,
+    privileged: true,
+    system_ext_specific: true,
+    overrides: [
+        "Launcher2",
+        "Launcher3",
+        "Launcher3QuickStep",
+    ],
+    enforce_uses_libs: false,
+    dex_preopt: {
+        enabled: false,
+    },
+    required: [
+        "privapp_whitelist_app.lawnchair",
+        "hiddenapi_whitelist_app.lawnchair",
+    ],
+}
+
+android_app_import {
+    name: "Lawnfeed",
+    apk: "Lawnfeed.apk",
+    presigned: true,
+    dex_preopt: {
+        enabled: false,
+    },
+}
+
+android_app_import {
+    name: "PrebuiltDeskClockGoogle",
+    apk: "PrebuiltDeskClockGoogle.apk",
+    presigned: true,
+    product_specific: true,
+    overrides: ["DeskClock"],
+    enforce_uses_libs: false,
+    dex_preopt: {
+        enabled: false,
+    },
+}
+
+android_app_import {
+    name: "GoogleCameraGo",
+    apk: "GoogleCameraGo.apk",
+    certificate: "platform",
+    product_specific: true,
+    overrides: [
+        "Camera",
+        "Camera2",
+        "Snap",
+        "Aperture",
+    ],
+    dex_preopt: {
+        enabled: false,
+    },
+}
+
+android_app_import {
+    name: "WebViewGoogle",
+    apk: "WebViewGoogle.apk",
+    presigned: true,
+    product_specific: true,
+    overrides: [
+        "webview",
+        "TrichromeWebView",
+    ],
+    enforce_uses_libs: false,
+    dex_preopt: {
+        enabled: false,
+    },
+}

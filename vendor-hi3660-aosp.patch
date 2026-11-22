@@ -1,0 +1,13 @@
+diff --git a/hi3660-vendor.mk b/hi3660-vendor.mk
+index 8bd09b1..2cc28c9 100644
+--- a/hi3660-vendor.mk
++++ b/hi3660-vendor.mk
+@@ -9,7 +9,6 @@ PRODUCT_SOONG_NAMESPACES += \
+     $(LOCAL_PATH)
+ 
+ PRODUCT_PACKAGES += \
+-    gnss_supl20service_hisi \
+-    Camera
++    gnss_supl20service_hisi
+ 
+ $(call inherit-product, vendor/huawei/hi3660/hi3660-vendor-blobs.mk)

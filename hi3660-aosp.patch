@@ -1,0 +1,56 @@
+diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
+index aac8ce1..535ad9b 100644
+--- a/BoardConfigCommon.mk
++++ b/BoardConfigCommon.mk
+@@ -118,11 +118,8 @@ BOARD_HUAWEI_DYNAMIC_PARTITIONS_SIZE := $(shell expr $(BOARD_SUPER_PARTITION_SIZ
+ BOARD_SUPER_PARTITION_METADATA_DEVICE := system
+ 
+ ifneq ($(WITH_GMS),true)
+-BOARD_PRODUCTIMAGE_EXTFS_INODE_COUNT := -1
+ BOARD_PRODUCTIMAGE_PARTITION_RESERVED_SIZE := 1188036608
+-BOARD_SYSTEMIMAGE_EXTFS_INODE_COUNT := -1
+ BOARD_SYSTEMIMAGE_PARTITION_RESERVED_SIZE := 94371840
+-BOARD_SYSTEM_EXTIMAGE_EXTFS_INODE_COUNT := -1
+ BOARD_SYSTEM_EXTIMAGE_PARTITION_RESERVED_SIZE := 94371840
+ endif
+ BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 94371840
+diff --git a/common.mk b/common.mk
+index df1cb1b..df9495f 100644
+--- a/common.mk
++++ b/common.mk
+@@ -173,10 +173,6 @@ PRODUCT_PACKAGES += \
+ PRODUCT_PACKAGES += \
+     android.hardware.light-service.huawei
+ 
+-# Livedisplay
+-PRODUCT_PACKAGES += \
+-    vendor.lineage.livedisplay@2.1-service.huawei
+-
+ # Media
+ PRODUCT_PACKAGES += \
+     libmockcasplugin
+@@ -223,8 +219,7 @@ PRODUCT_COPY_FILES += \
+ 
+ # Overlays
+ DEVICE_PACKAGE_OVERLAYS += \
+-    $(LOCAL_PATH)/overlay \
+-    $(LOCAL_PATH)/overlay-lineage
++    $(LOCAL_PATH)/overlay
+ 
+ # Partitions
+ PRODUCT_USE_DYNAMIC_PARTITIONS := true
+@@ -315,14 +310,6 @@ PRODUCT_PACKAGES += \
+     android.hardware.thermal@1.0-impl \
+     android.hardware.thermal@1.0-service
+ 
+-# Touch
+-PRODUCT_PACKAGES += \
+-    vendor.lineage.touch@1.0-service.huawei
+-
+-# Trust HAL
+-PRODUCT_PACKAGES += \
+-    vendor.lineage.trust@1.0-service
+-
+ # USB
+ PRODUCT_PACKAGES += \
+     android.hardware.usb@1.0-service.basic \

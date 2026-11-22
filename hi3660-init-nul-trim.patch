@@ -1,0 +1,15 @@
+diff --git a/resources/libinit_hisi/libinit_variants.cpp b/resources/libinit_hisi/libinit_variants.cpp
+index b3d0f28..1c2e6f7 100644
+--- a/resources/libinit_hisi/libinit_variants.cpp
++++ b/resources/libinit_hisi/libinit_variants.cpp
+@@ -26,7 +26,9 @@ string ReadModelInfo() {
+ 
+     getline(fd, buf);
+     fd.close();
+-    
++
++    while (!buf.empty() && buf.back() == '\0')
++        buf.pop_back();
+     return buf;
+ }
+ 

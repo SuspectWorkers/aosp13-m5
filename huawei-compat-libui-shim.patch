@@ -1,0 +1,63 @@
+diff --git a/libshims/Android.bp b/libshims/Android.bp
+index 07dc872..6b4e2f1 100644
+--- a/libshims/Android.bp
++++ b/libshims/Android.bp
+@@ -26,6 +26,16 @@ cc_library_shared {
+     vendor: true,
+ }
+ 
++cc_library_shared {
++    name: "libui_shim",
++    srcs: ["libui_shim.cpp"],
++    shared_libs: [
++        "libui",
++        "libutils",
++    ],
++    vendor_available: true,
++}
++
+ cc_library_shared {
+     name: "libshim_audioparams",
+     srcs: ["libshim_audioparams.cpp"],
+diff --git a/libshims/libui_shim.cpp b/libshims/libui_shim.cpp
+new file mode 100644
+index 0000000..f81b8e9
+--- /dev/null
++++ b/libshims/libui_shim.cpp
+@@ -0,0 +1,36 @@
++// SPDX-License-Identifier: Apache-2.0
++
++#include <stdint.h>
++#include <ui/GraphicBufferMapper.h>
++#include <ui/Rect.h>
++#include <utils/Errors.h>
++
++using android::Rect;
++using android::status_t;
++
++extern "C" {
++
++void _ZN7android5FenceD1Ev() {}
++
++status_t _ZN7android13GraphicBuffer4lockEjPPvPiS3_(
++        void* thisptr, uint32_t inUsage, void** vaddr,
++        int32_t* outBytesPerPixel, int32_t* outBytesPerStride);
++
++status_t _ZN7android13GraphicBuffer4lockEjPPv(
++        void* thisptr, uint32_t inUsage, void** vaddr) {
++    return _ZN7android13GraphicBuffer4lockEjPPvPiS3_(
++            thisptr, inUsage, vaddr, nullptr, nullptr);
++}
++
++status_t _ZN7android19GraphicBufferMapper4lockEPK13native_handlejRKNS_4RectEPPvPiS9_(
++        void* thisptr, buffer_handle_t handle, uint32_t usage,
++        const Rect& bounds, void** vaddr,
++        int32_t* outBytesPerPixel, int32_t* outBytesPerStride);
++
++status_t _ZN7android19GraphicBufferMapper4lockEPK13native_handlejRKNS_4RectEPPv(
++        void* thisptr, buffer_handle_t handle, uint32_t usage,
++        const Rect& bounds, void** vaddr) {
++    return _ZN7android19GraphicBufferMapper4lockEPK13native_handlejRKNS_4RectEPPvPiS9_(
++            thisptr, handle, usage, bounds, vaddr, nullptr, nullptr);
++}
++}

@@ -1,0 +1,17 @@
+diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
+index 2fbf700..2c82d6d 100644
+--- a/overlay/frameworks/base/core/res/res/values/config.xml
++++ b/overlay/frameworks/base/core/res/res/values/config.xml
+@@ -77,4 +77,12 @@
+     <!-- Open Global Actions (Power/Restart) menu on long-press of power button instead of Assistant. -->
+     <integer name="config_longPressOnPowerBehavior">1</integer>
+ 
++    <!-- Enable Camera and Microphone privacy toggles in Quick Settings -->
++    <bool name="config_supportsCamToggle">true</bool>
++    <bool name="config_supportsMicToggle">true</bool>
++
++    <!-- Use Lawnchair as the Quickstep Recents provider (replaces Launcher3) -->
++    <string name="config_recentsComponentName" translatable="false">app.lawnchair/com.android.quickstep.RecentsActivity</string>
++    <bool name="config_swipe_up_gesture_setting_available">true</bool>
++
+ </resources>

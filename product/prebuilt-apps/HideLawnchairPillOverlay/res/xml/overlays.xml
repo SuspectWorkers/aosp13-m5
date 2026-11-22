@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<overlay>
+    <item target="color/taskbar_stashed_handle_dark_color" value="#00000000" />
+    <item target="color/taskbar_stashed_handle_light_color" value="#00000000" />
+    <item target="dimen/taskbar_stashed_handle_height" value="0dp" />
+    <item target="dimen/taskbar_stashed_handle_width" value="0dp" />
+</overlay>

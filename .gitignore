@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+product/prebuilt-apps/WebViewGoogle.apk
+.claude/

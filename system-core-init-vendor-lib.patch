@@ -1,0 +1,47 @@
+diff --git a/init/Android.bp b/init/Android.bp
+index 8e31c2e..7d6a1a5 100644
+--- a/init/Android.bp
++++ b/init/Android.bp
+@@ -217,6 +217,7 @@ cc_library_static {
+         "libcap",
+         "com.android.sysprop.apex",
+         "com.android.sysprop.init",
++        "//device/huawei/hi3660/resources:init_hisi",
+     ],
+     header_libs: ["bootimg_headers"],
+     proto: {
+diff --git a/init/property_service.cpp b/init/property_service.cpp
+index 0d3b659..d9f3a9d 100644
+--- a/init/property_service.cpp
++++ b/init/property_service.cpp
+@@ -74,6 +74,7 @@
+ #include "subcontext.h"
+ #include "system/core/init/property_service.pb.h"
+ #include "util.h"
++#include "vendor_init.h"
+ 
+ using namespace std::literals;
+ 
+@@ -1132,6 +1133,8 @@ void PropertyLoadBootDefaults() {
+         }
+     }
+ 
++    vendor_load_properties();
++
+     property_initialize_ro_product_props();
+     property_initialize_build_id();
+     property_derive_build_fingerprint();
+diff --git a/init/vendor_init.h b/init/vendor_init.h
+new file mode 100644
+index 0000000..f1f6a8d
+--- /dev/null
++++ b/init/vendor_init.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: Apache-2.0 */
++
++#ifndef _INIT_VENDOR_INIT_H_
++#define _INIT_VENDOR_INIT_H_
++
++void vendor_load_properties();
++
++#endif

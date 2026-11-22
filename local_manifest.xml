@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Initial donor checkout. Not a complete or build-tested AOSP product. -->
+<manifest>
+  <remote name="m5-github" fetch="https://github.com/" />
+  <project path="device/huawei/mediapadm5wifi" name="Huawei-Dev/android_device_huawei_mediapadm5wifi" remote="m5-github" revision="c8ed806d73aa2d72ed3032b48300f7940bb9e8ee" upstream="refs/heads/android@13" />
+  <project path="device/huawei/hi3660" name="Huawei-Dev/android_device_huawei_hi3660" remote="m5-github" revision="15e676c93aef55c96c3984a69b7d7a95487926f2" upstream="refs/heads/android@13" />
+  <project path="vendor/huawei/hi3660" name="Huawei-Dev/android_vendor_huawei_hi3660" remote="m5-github" revision="f1e7b390728928fefeb2681f133cf144891dea4a" upstream="refs/heads/android@13" />
+  <!-- Upstream kernel reference for resolving the build graph, not the installed v17 image. -->
+  <project path="kernel/huawei/hi3660" name="Huawei-Dev/android_kernel_huawei_hi3660" remote="m5-github" revision="371a73f850a7a7b060e3d1be13f7d79d5e18d871" upstream="refs/heads/android@13" />
+  <!-- Compatibility candidate; not proven to match the release byte-for-byte. -->
+  <project path="device/huawei/compat" name="Trijal08/android_device_huawei_compat" remote="m5-github" revision="59e4aefb75ecfbabd5f5b373ade100045607daba" upstream="refs/heads/android@13" />
+</manifest>

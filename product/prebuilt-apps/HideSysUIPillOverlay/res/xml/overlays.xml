@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<overlay>
+    <item target="color/navigation_bar_home_handle_dark_color" value="#00000000" />
+    <item target="color/navigation_bar_home_handle_light_color" value="#00000000" />
+    <item target="dimen/navigation_home_handle_width" value="0dp" />
+</overlay>

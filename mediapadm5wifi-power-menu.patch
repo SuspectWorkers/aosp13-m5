@@ -1,0 +1,13 @@
+diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
+index 4b614cf..9a2232c 100644
+--- a/overlay/frameworks/base/core/res/res/values/config.xml
++++ b/overlay/frameworks/base/core/res/res/values/config.xml
+@@ -73,5 +73,8 @@
+         <item>"1,1"</item>
+         <item>"0,1"</item>
+     </string-array>
+ 
++    <!-- Open Global Actions (Power/Restart) menu on long-press of power button instead of Assistant. -->
++    <integer name="config_longPressOnPowerBehavior">1</integer>
++
+ </resources>
