@@ -22,8 +22,14 @@ apply_series() {
     shift
     local dir="$M5_BUILD_ROOT/source/$rel"
     local patches=("$@")
-    local last="${patches[${#patches[@]}-1]}"
-    if ! git -C "$dir" apply --reverse --check "$project/$last" 2>/dev/null; then
+    local need_reapply=0
+    for p in "${patches[@]}"; do
+        if ! git -C "$dir" apply --reverse --check "$project/$p" 2>/dev/null; then
+            need_reapply=1
+            break
+        fi
+    done
+    if [[ "$need_reapply" == "1" ]]; then
         git -C "$dir" checkout -- .
         if [[ "$rel" == "device/huawei/mediapadm5wifi" ]]; then
             rm -f "$dir/overlay/frameworks/base/core/res/res/xml/config_webview_packages.xml"
